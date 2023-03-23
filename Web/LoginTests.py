@@ -10,16 +10,12 @@ loginButtonXPATH = "/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2
 
 def NormalLogin():
     driver = WebsiteDriverInit.init()
-    username="mohra_ayman@gmail.com"
     usernameT=" miraaayman770@gmail.com"
     passwordT="Software123?"
-    password="565t5yG4rrtghj"
-    loginurl="https://www.eventbrite.com/signin/?referrer=%2F"
     mainURL="https://www.eventbrite.com/"
     driver.get(mainURL)
-    # driver.maximize_window()
     sleep(5)
-    login  = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, loginButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, loginButtonXPATH))
     login.click()
     sleep(5)
     driver.find_element(By.ID,"email").send_keys(usernameT)
