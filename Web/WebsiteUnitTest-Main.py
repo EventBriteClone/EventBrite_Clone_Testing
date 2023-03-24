@@ -9,7 +9,8 @@ import WebsiteDriverInit
 
 
 # Import test files
-from LoginTests import NormalLogin, TestLoginWrongEmail, BlankLogin
+from LoginTests import NormalLogin, TestLoginWrongEmail,TestLoginWrongPassword, TestBlankLogin,TestBlankPasswordLogin
+from SignupTests import NormalSignUp,testSignUpWrongNames,testSignUpWrongEmailDomian,testSignUpWrongEmail,testSignUpEmptyEmail,testSignUpAssociatedEmail,testSignUpDiffrentEmails,testSignUpWithoutFirstName
 from EventCreationTests import TestTagLimit, NormalEventCreation, NoLocation, TestDoubleTags, NoTitle
 
 
@@ -24,8 +25,41 @@ class MainTestingRoutine(unittest.TestCase):
     def test_Login2(self): # Test login using incorrect credentials
         TestLoginWrongEmail()
 
-    def test_Login3(self): # Test login with no credentials at all
-        BlankLogin()
+    def test_Login3(self): # Test login using incorrect credentials
+        TestLoginWrongPassword()    
+
+    def test_Login4(self): # Test login with no credentials at all
+        TestBlankLogin()
+
+    def test_Login5(self): # Test login with no password
+        TestBlankPasswordLogin()    
+
+    ###################### SIGNUP TESTS ##############################
+    
+    def test_SignUp1(self): # Test SignUp using correct credentials
+        NormalSignUp()
+
+    def test_SignUp2(self): # Test login using incorrect credentials
+        testSignUpWrongNames()
+
+    def test_SignUp3(self): # Test login using incorrect credentials
+        testSignUpWrongEmailDomian()    
+    
+    # still not working becuse assert
+    def test_SignUp4(self): # Test login with no credentials at all
+        testSignUpWrongEmail()
+
+    def test_SignUp5(self): # Test login with no email
+        testSignUpEmptyEmail()  
+
+    def test_SignUp6(self): # Test sign up with an already associated email
+        testSignUpAssociatedEmail()  
+
+    def test_SignUp7(self): # Test sign up with unmatching emails
+        testSignUpDiffrentEmails()  
+
+    def test_SignUp8(self): # Test sign up without a first name
+        testSignUpWithoutFirstName()  
 
     ##################### EVENT CREATION TESTS ######################
 
@@ -46,4 +80,7 @@ class MainTestingRoutine(unittest.TestCase):
 
         
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
+    with open('test_results.txt', 'w') as f:
+        runner = unittest.TextTestRunner(stream=f, verbosity=2)
+        unittest.main(testRunner=runner)
