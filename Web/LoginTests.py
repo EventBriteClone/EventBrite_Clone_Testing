@@ -46,21 +46,50 @@ def TestLoginWrongEmail():
     assert "There is no account associated with the email." in driver.page_source
     driver.close()
 
-def BlankLogin():
+def TestLoginWrongPassword():
+    driver = WebsiteDriverInit.init()
+    username=" miraaayman770@gmail.com"
+    password="oftSware1255"
+    driver.get("https://www.eventbrite.com/")
+    # driver.maximize_window()
+    sleep(5)
+    login  = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, loginButtonXPATH))
+    login.click()
+    sleep(5)
+    driver.find_element(By.ID,"email").send_keys(username)
+    input_field=driver.find_element(By.ID,"password")
+    input_field.send_keys(password)
+    sleep(5)
+    input_field.send_keys(Keys.RETURN)
+    sleep(5)
+    assert "The password is not correct." in driver.page_source
+    driver.close()
+
+def TestBlankLogin():
     driver = WebsiteDriverInit.init()
     driver.get("https://www.eventbrite.com/")
     sleep(5)
     login  = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, loginButtonXPATH))
     login.click()
+    sleep(5)
+    driver.find_element(By.ID,"email").send_keys(Keys.RETURN)
+    input_field=driver.find_element(By.ID,"password")
+    input_field.send_keys(Keys.RETURN)
+    sleep(30)
+    assert "Please enter a valid email address" in driver.page_source
+    driver.close()
+
+def TestBlankPasswordLogin():
+    driver = WebsiteDriverInit.init()
+    username=" miraaayman770@gmail.com"
+    driver.get("https://www.eventbrite.com/")
+    sleep(5)
+    login  = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, loginButtonXPATH))
+    login.click()
+    sleep(5)
+    driver.find_element(By.ID,"email").send_keys(username)
     input_field=driver.find_element(By.ID,"password")
     input_field.send_keys(Keys.RETURN)
     sleep(5)
     assert "Password is required" in driver.page_source
-    driver.close()
-
-
-
-
-
-
-
+    driver.close()    

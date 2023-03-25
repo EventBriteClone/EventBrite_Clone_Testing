@@ -10,14 +10,14 @@ import WebsiteDriverInit
 
 # Import test files
 from LoginTests import NormalLogin, TestLoginWrongEmail,TestLoginWrongPassword, TestBlankLogin,TestBlankPasswordLogin
-from SignupTests import NormalSignUp,testSignUpWrongNames,testSignUpWrongEmailDomian,testSignUpWrongEmail,testSignUpEmptyEmail,testSignUpAssociatedEmail,testSignUpDiffrentEmails,testSignUpWithoutFirstName
+from SignupTests import NormalSignUp,testSignUpWrongNames,testSignUpWrongEmailDomian,testSignUpWithoutPassword,testSignUpEmptyEmail,testSignUpAssociatedEmail,testSignUpDiffrentEmails,testSignUpWithoutFirstName
 from EventCreationTests import TestTagLimit, NormalEventCreation, NoLocation, TestDoubleTags, NoTitle
 
 
 
 class MainTestingRoutine(unittest.TestCase):
 
-    ###################### LOGIN TESTS ##############################
+    # ###################### LOGIN TESTS ##############################
     
     def test_Login1(self): # Test Login using correct credentials
         NormalLogin()
@@ -36,30 +36,37 @@ class MainTestingRoutine(unittest.TestCase):
 
     ###################### SIGNUP TESTS ##############################
     
-    def test_SignUp1(self): # Test SignUp using correct credentials
-        NormalSignUp()
+    def test_SignUp1(self):
+    # Test SignUp using correct credentials
+      NormalSignUp()
 
-    def test_SignUp2(self): # Test login using incorrect credentials
+    def test_SignUp2(self):
+    # Test SignUp using incorrect credentials
         testSignUpWrongNames()
 
-    def test_SignUp3(self): # Test login using incorrect credentials
-        testSignUpWrongEmailDomian()    
-    
-    # still not working becuse assert
-    def test_SignUp4(self): # Test login with no credentials at all
-        testSignUpWrongEmail()
+    def test_SignUp3(self):
+    # Test SignUp using incorrect email domain
+        testSignUpWrongEmailDomian()
 
-    def test_SignUp5(self): # Test login with no email
-        testSignUpEmptyEmail()  
+    def test_SignUp4(self):
+    # Test SignUp with no credentials at all
+        testSignUpWithoutPassword()
 
-    def test_SignUp6(self): # Test sign up with an already associated email
-        testSignUpAssociatedEmail()  
+    def test_SignUp5(self):
+    # Test SignUp with no email
+        testSignUpEmptyEmail()
 
-    def test_SignUp7(self): # Test sign up with unmatching emails
-        testSignUpDiffrentEmails()  
+    def test_SignUp6(self):
+    # Test SignUp with an already associated email
+        testSignUpAssociatedEmail()
 
-    def test_SignUp8(self): # Test sign up without a first name
-        testSignUpWithoutFirstName()  
+    def test_SignUp7(self):
+    # Test SignUp with different emails
+        testSignUpDiffrentEmails()
+
+    def test_SignUp8(self):
+    # Test SignUp without a first name
+     testSignUpWithoutFirstName()
 
     ##################### EVENT CREATION TESTS ######################
 
