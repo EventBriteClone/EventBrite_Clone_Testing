@@ -5,7 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 import WebsiteDriverInit
-
+import Names
 righttagarray = []
 longtagarray = []
 shorttagarray = []
@@ -16,17 +16,17 @@ for i in range(11):
 for i in range(9):
     shorttagarray.append("tag"+str(i))
 
-loginButtonXPATH = r"/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/div[2]/a[1]/span[2]"
-CreateEventXPATH = r"/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/a"
-TypeSelector = r"#eventType"
-CategorySelector = r"#eventSubTopic"
-EventNameSelector = r"#event-basicInfo-title"
-OrganizerSelector = r"#event-basicinfo-create-organizer-profile"
-TagFieldSelector = r"/html/body/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[2]/div/div/div/div[1]/div/main/section/div/div/div[2]/form/div[1]/div[2]/div[2]/div[3]/div[3]/div/div/div/div/div/div/div[1]/div/div/input"
-AddTagButtonClass = r"eds-btn eds-btn--button eds-btn--neutral eds-btn--responsive"
-VenueSelector = r"#event-locationautocomplete-location"
-SaveButtonXPATH = r"/html/body/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[2]/div/div/div/div[2]/div/div/div/button[2]/text()"
-OnlineVenueXPATH = r"/html/body/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[2]/div/div/div/div[1]/div/main/section/div/div/div[2]/form/div[2]/div[2]/div[2]/div/div/div[1]/div/div[2]/label"
+loginButtonXPATH = "/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/div[2]/a[1]/span[2]"
+CreateEventXPATH = "/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/a"
+TypeSelector = "#eventType"
+CategorySelector = "#eventSubTopic"
+EventNameSelector = "#event-basicInfo-title"
+OrganizerSelector = "#event-basicinfo-create-organizer-profile"
+TagFieldSelector = "#tagging-form-field"
+AddTagButtonClass = "eds-btn eds-btn--button eds-btn--neutral eds-btn--responsive"
+VenueSelector = "#event-locationautocomplete-location"
+SaveButtonXPATH = "/html/body/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[2]/div/div/div/div[2]/div/div/div/button[2]"
+OnlineVenueXPATH = "/html/body/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div[2]/div/div/div/div[1]/div/main/section/div/div/div[2]/form/div[2]/div[2]/div[2]/div/div/div[1]/div/div[2]/label"
 
 
 def LoginAndStartCreating():
@@ -34,7 +34,7 @@ def LoginAndStartCreating():
     driver = WebsiteDriverInit.init()
     usernameT=" miraaayman770@gmail.com"
     passwordT="Software123?"
-    mainURL="https://www.eventbrite.com/"
+    mainURL="https://www.event-us.me/"
     driver.get(mainURL)
     driver.maximize_window()
     sleep(5)
@@ -55,10 +55,10 @@ def NormalEventCreation():
     LoginAndStartCreating()
     name = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.CSS_SELECTOR, EventNameSelector))
     name.send_keys("Sample Name")
-    venue = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, OnlineVenueXPATH))
+    venue = driver.find_element(By.XPATH, OnlineVenueXPATH)
     venue.click()
     sleep(5)
-    savebutton = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, SaveButtonXPATH))
+    savebutton = driver.find_element(By.XPATH, SaveButtonXPATH)
     savebutton.click()
     sleep(10)
     assert "Preview Your Event" in driver.page_source
@@ -67,7 +67,7 @@ def NormalEventCreation():
 def TestTagLimit():
     LoginAndStartCreating()
 
-    TagBox = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.NAME, r"tagInputField"))
+    TagBox = driver.find_element(By.CSS_SELECTOR, TagFieldSelector)
     for i in longtagarray:
         TagBox.click()
         TagBox.send_keys(i)
@@ -78,7 +78,7 @@ def TestTagLimit():
 
 def TestDoubleTags():
     LoginAndStartCreating()
-    TagBox = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.NAME, r"tagInputField"))
+    TagBox = driver.find_element(By.CSS_SELECTOR, TagFieldSelector)
     for i in shorttagarray:
         TagBox.click()
         TagBox.send_keys(i)
@@ -92,8 +92,7 @@ def NoLocation():
     LoginAndStartCreating()
     name = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.CSS_SELECTOR, EventNameSelector))
     name.send_keys("Sample Name")
-    sleep(5)
-    savebutton = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, SaveButtonXPATH))
+    savebutton = driver.find_element(By.XPATH, SaveButtonXPATH)
     savebutton.click()
     sleep(2)
     assert "Location is required" in driver.page_source
@@ -103,8 +102,8 @@ def NoTitle():
     LoginAndStartCreating()
     TagBox = driver.find_element(By.CSS_SELECTOR, TagFieldSelector)
     TagBox.send_keys("Randomnessssss")
-    sleep(5)
-    savebutton = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, SaveButtonXPATH))
+    sleep(3)
+    savebutton = driver.find_element(By.XPATH, SaveButtonXPATH)
     savebutton.click()
     sleep(2)
     assert "Title is required." in driver.page_source
