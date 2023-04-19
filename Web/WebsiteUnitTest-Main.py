@@ -88,6 +88,6 @@ class MainTestingRoutine(unittest.TestCase):
         
 if __name__ == "__main__":
     # unittest.main()
-    with open('test_results.txt', 'w') as f:
+    with open('web_test_results.txt', 'w') as f:
         runner = unittest.TextTestRunner(stream=f, verbosity=2)
         unittest.main(testRunner=runner)

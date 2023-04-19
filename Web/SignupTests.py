@@ -8,7 +8,7 @@ import WebsiteDriverInit
 import random
 import string
 from faker import Faker
-
+import Names
 # Utility functions
 def FirstLastName():
     faker = Faker()
@@ -29,16 +29,15 @@ def ceatePasword():
     password = ''.join(random.choice(char_set) for i in range(12))
     return password
 def fill(driver,email,first_name,last_name,password):
-    driver.find_element(By.ID,"emailConfirmation").send_keys(email)
-    driver.find_element(By.ID,"firstName").send_keys(first_name)
-    driver.find_element(By.ID,"lastName").send_keys(last_name)
-    driver.find_element(By.ID,"password").send_keys(password)
+    driver.find_element(By.ID,Names.sigupConfirmEmailSpace).send_keys(email)
+    driver.find_element(By.ID,Names.sigupFNameSpace).send_keys(first_name)
+    driver.find_element(By.ID,Names.sigupLNameSpace).send_keys(last_name)
+    driver.find_element(By.ID,Names.sigupPasswordSpace).send_keys(password)
 
 # Predefined selectors
 signupButtonXPATH="/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/div[2]/a[2]/span[2]"
-ConfirmButtonXPATH="/html/body/div[1]/div/div[2]/div/div/div/div[1]/div/main/div/div[1]/div/form/div[3]/div/button"
 AgreeButtonXPATH="/html/body/div[1]/div/div[2]/div/div/div/div[1]/div/main/div/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/main/div/div/div/div/div/div[2]/button[2]"
-mainURL="https://www.eventbrite.com/"
+mainURL="https://www.event-us.me/"
 
 def NormalSignUp():
     # Initialize the web driver
@@ -55,14 +54,14 @@ def NormalSignUp():
     login.click()
     sleep(5)
     # Fill in the email field and submit
-    input_field = driver.find_element(By.ID, "email")
+    input_field = driver.find_element(By.ID, Names.sigupEmailSpace)
     input_field.send_keys(email)
     input_field.send_keys(Keys.RETURN)
     sleep(5)
     # Fill in the form with user details
     fill(driver, email, first_name, last_name, password)
     # Click the confirm button
-    input_field = driver.find_element(By.XPATH, ConfirmButtonXPATH)
+    input_field = driver.find_element(By.ID, Names.ConfirmButtonXPATH)
     input_field.click()
     sleep(5)
     # Agree to the terms and conditions
@@ -90,14 +89,14 @@ def testSignUpWrongNames():
     login.click()
     sleep(5)
     # Fill in the email field and submit
-    input_field = driver.find_element(By.ID, "email")
+    input_field = driver.find_element(By.ID, Names.sigupEmailSpace)
     input_field.send_keys(email)
     input_field.send_keys(Keys.RETURN)
     sleep(5)
     # Fill in the form with incorrect user details
     fill(driver, email, first_name, last_name, password)
     # Click the confirm button
-    input_field = driver.find_element(By.XPATH, ConfirmButtonXPATH)
+    input_field = driver.find_element(By.ID, Names.ConfirmButtonXPATH)
     input_field.click()
     sleep(5)
     # Agree to the terms and conditions
@@ -121,7 +120,7 @@ def testSignUpWrongEmailDomian():
     login.click()
     sleep(5)
     # Fill in the email field with incorrect email
-    input_field = driver.find_element(By.ID, "email")
+    input_field = driver.find_element(By.ID, Names.sigupEmailSpace)
     input_field.send_keys(email)
     input_field.send_keys(Keys.RETURN)
     sleep(5)
@@ -145,13 +144,13 @@ def testSignUpWithoutPassword():
     login.click()
     sleep(5)
     # Enter the email
-    input_field=driver.find_element(By.ID,"email")
+    input_field=driver.find_element(By.ID,Names.sigupEmailSpace)
     input_field.send_keys(email)
     input_field.send_keys(Keys.RETURN)
     sleep(5)
     # Fill the sign up form
     fill(driver,email,first_name,last_name,password)
-    input_field=driver.find_element(By.XPATH ,ConfirmButtonXPATH)
+    input_field=driver.find_element(By.ID ,Names.ConfirmButtonXPATH)
     input_field.click()
     sleep(5)
     # Check for the expected error message
@@ -169,7 +168,7 @@ def testSignUpEmptyEmail():
     login.click()
     sleep(5)
     # Press enter without entering the email
-    input_field=driver.find_element(By.ID,"email")
+    input_field=driver.find_element(By.ID,Names.sigupEmailSpace)
     input_field.send_keys(Keys.RETURN)
     sleep(3)
     # Check for the expected error message
@@ -189,7 +188,7 @@ def testSignUpAssociatedEmail():
     login.click()
     sleep(5)
     # Enter the existing email
-    input_field=driver.find_element(By.ID,"email")
+    input_field=driver.find_element(By.ID,Names.sigupEmailSpace)
     input_field.send_keys(usernameT)
     input_field.send_keys(Keys.RETURN)
     sleep(3)
@@ -215,7 +214,7 @@ def testSignUpDiffrentEmails():
     # Wait for 5 seconds for the sign-up form to load.
     sleep(5)
     # Find the email input field and enter the generated email address.
-    input_field=driver.find_element(By.ID,"email")
+    input_field=driver.find_element(By.ID,Names.sigupEmailSpace)
     input_field.send_keys(email)
     # Send the "Enter" key to submit the email address.
     input_field.send_keys(Keys.RETURN)
@@ -225,7 +224,7 @@ def testSignUpDiffrentEmails():
     email,username=createEmail()
     fill(driver,email,first_name,last_name,password)
     # Find and click on the confirm button using an XPATH.
-    input_field=driver.find_element(By.XPATH ,ConfirmButtonXPATH)
+    input_field=driver.find_element(By.ID ,Names.ConfirmButtonXPATH)
     input_field.click()
     # Wait for 5 seconds for the page to load.
     sleep(5)
@@ -251,7 +250,7 @@ def testSignUpWithoutFirstName():
     # Wait for 5 seconds for the sign-up form to load.
     sleep(5)
     # Find the email input field and enter the generated email address.
-    input_field=driver.find_element(By.ID,"email")
+    input_field=driver.find_element(By.ID,Names.sigupEmailSpace)
     input_field.send_keys(email)
     # Send the "Enter" key to submit the email address.
     input_field.send_keys(Keys.RETURN)
@@ -260,7 +259,7 @@ def testSignUpWithoutFirstName():
     # Fill out the sign-up form with the generated email address, last name, password, and empty first name.
     fill(driver,email,first_name,last_name,password)
     # Find and click on the confirm button using an XPATH.
-    input_field=driver.find_element(By.XPATH ,ConfirmButtonXPATH)
+    input_field=driver.find_element(By.ID ,Names.ConfirmButtonXPATH)
     input_field.click()
     # Wait for 5 seconds for the page to load.
     sleep(5)
