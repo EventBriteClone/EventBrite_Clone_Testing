@@ -32,4 +32,4 @@ class EventbriteUser(HttpUser):
         event_id = 1  # replace with a valid event ID
         self.client.get(f"/events/{event_id}")
 
-# RUN THIS INTO THE TERMINAL: locust -f eventbrite_test.py --host=https://eventbrite-clone.com
+# RUN THIS INTO THE TERMINAL: locust -f eventbrite_test.py --host=https://www.event-us.me/
