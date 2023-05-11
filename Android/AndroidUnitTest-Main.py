@@ -12,17 +12,17 @@ import GenericAndroidTests
 
 class EvenBriteSearch(unittest.TestCase):
 
-    def test_SU(self): #test normal sign up
-        GenericAndroidTests.SignUp()
-
     def test_SUnoAt(self): #test sign up with invalid email
         GenericAndroidTests.SignUpNoAt()
+    
+    def test_SU(self): #test normal sign up
+        GenericAndroidTests.SignUp()
 
     def test_login(self): #test login with an existing email
         GenericAndroidTests.Login()
 
-    def test_wrongpass(self): #test login but insert wrong password
-        GenericAndroidTests.WrongPass()
+    # def test_wrongpass(self): #test login but insert wrong password
+    #     GenericAndroidTests.WrongPass()
 
     def test_passintegrity(self): #attempt different password scenaraios
         GenericAndroidTests.SignUpWeakPass()

@@ -15,7 +15,7 @@ def NormalLogin():
     mainURL="https://www.event-us.me/"
     driver.get(mainURL)
     sleep(5)
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, Names.loginButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[2]/a[2]'))
     login.click()
     sleep(5)
     driver.find_element(By.XPATH,Names.EmailSpace).send_keys(usernameT)

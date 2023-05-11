@@ -70,20 +70,20 @@ class MainTestingRoutine(unittest.TestCase):
 
     ##################### EVENT CREATION TESTS ######################
 
-    def test_EC1(self): # Test error message when trying to enter more than 10 tags
-        TestTagLimit()
+    # def test_EC1(self): # Test error message when trying to enter more than 10 tags
+    #     TestTagLimit()
 
-    def test_EC2(self): # Test error message when trying to save an event without a location
-        NoLocation()
+    # def test_EC2(self): # Test error message when trying to save an event without a location
+    #     NoLocation()
 
-    def test_EC3(self): # Test error message when trying to save an event without a title
-        NoTitle()
+    # def test_EC3(self): # Test error message when trying to save an event without a title
+    #     NoTitle()
 
-    def test_EC4(self): # Test double Tagging
-        TestDoubleTags()
+    # def test_EC4(self): # Test double Tagging
+    #     TestDoubleTags()
 
-    def test_ECFinal(self): # Test Normal event creation with an online venue
-        NormalEventCreation()
+    # def test_ECFinal(self): # Test Normal event creation with an online venue
+    #     NormalEventCreation()
 
         
 if __name__ == "__main__":

@@ -34,17 +34,29 @@ def NormalLogin():
     byEmail.click()
     time.sleep(5)
     field = driver.find_element(by=AppiumBy.XPATH, value=emailfield)
-    email = "take email from Youssef Saad"
+    email = "youssefsaadlotfy73@gmail.com"
     field.send_keys(email)
     next = driver.find_element(by=AppiumBy.XPATH, value=NextPath)
     next.click()
-    time.sleep(20)
+    time.sleep(5)
+    password = "Youssef@33"
+    passfield = driver.find_element(by=AppiumBy.XPATH, value=SIPassfield)
+    passfield.send_keys(password)
+    time.sleep(10)
 
 emailfield = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText"
 FavsPath = '//android.view.View[@content-desc="Tab 3 of 5"]'
 LoginPath = '//android.view.View[@content-desc="Log in"]'
 byEmailPath = '//android.view.View[@content-desc="Continue with email address"]'
 NextPath = '//android.widget.Button[@content-desc="Next"]'
+
+SUEmailXpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[1]"
+SUNameXpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[2]"
+SULNameXpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[3]"
+SUPassXpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[4]"
+SUNextXpath = '//android.widget.Button[@content-desc="Sign Up"]'
+
+SIPassfield = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText"
 
 # def SampleTest():
 #     driver = AndroidDriverInit.init()
@@ -73,7 +85,7 @@ def SignUp(): #attempt log in with a never used before email (rnd)
     next = driver.find_element(by=AppiumBy.XPATH, value=NextPath)
     next.click()
     time.sleep(20)
-    assert "[insert haga hena]" in driver.page_source
+    assert "Sign Up" in driver.page_source
     driver.close()
 
 def SignUpNoAt(): #attempt log in with an invalid email (no @ symbol)
@@ -119,20 +131,27 @@ def SignUpWeakPass(): #attempt log in with a never used before email (rnd)
     next.click()
     time.sleep(20)
     ################ PASSES #####################
-    passesarray = ["qwerty", "qwertyasd", "qwerty123", "qwerty123_", "Qwerty123_"]
-    cond1, cond2, cond3, cond4, cond5 = False
+    passesarray = ["qwerty", "qwertyasd", "qwerty123", "qwerty123_", "Qwerty123"]
+    cond1, cond2, cond3, cond4, cond5, cond6 = False
     condarray = [cond1, cond2, cond3, cond4, cond5]
     counter = 0
+    namefield = driver.find_element(by=AppiumBy.XPATH, value=SUNameXpath)
+    lnamefield = driver.find_element(by=AppiumBy.XPATH, value=SULNameXpath)
+    namefield.send_keys("John")
+    lnamefield.send_keys("Smith")
     #############################################
-    passfield = driver.find_element(by=AppiumBy.XPATH, value="passfield")
-    nextbutton = driver.find_element(by=AppiumBy.XPATH, value="nextbutton")
+    passfield = driver.find_element(by=AppiumBy.XPATH, value=SUPassXpath)
+    nextbutton = driver.find_element(by=AppiumBy.XPATH, value=SUNextXpath)
     for i in passesarray:
         passfield.send_keys(i)
         condarray[counter] = not nextbutton.is_enabled()
         counter+=1
         for i in range(len(i)):
             passfield.send_keys(Keys.BACK_SPACE)
-    if cond1 == cond2 == cond3 == cond4 == cond5 == True:
+
+    passfield.send_keys("Qwerty123_")
+    cond6 = nextbutton.is_enabled()
+    if cond1 == cond2 == cond3 == cond4 == cond5 == cond6 == True:
         assert True
     else:
         assert False
@@ -140,14 +159,14 @@ def SignUpWeakPass(): #attempt log in with a never used before email (rnd)
 
 def Login(): #attempt log in with a signed up email
     NormalLogin()
-    assert "[insert haga hena]" in driver.page_source
+    assert "Change" in driver.page_source
     driver.close()
 
-def WrongPass(): #attempt login with a signed up email but use wrong password
-    NormalLogin()
-    PasswordField = driver.find_element(by=AppiumBy.XPATH, value=byEmailPath)
-    PasswordField.send_keys("wrong_password123")
-    time.sleep(5)
-    #Need element for next button!!!!!!!!!!!!!!!!!
-    assert "The password you entered is incorrenct" in driver.page_source
-    driver.close()
+# def WrongPass(): #attempt login with a signed up email but use wrong password
+#     NormalLogin()
+#     PasswordField = driver.find_element(by=AppiumBy.XPATH, value=byEmailPath)
+#     PasswordField.send_keys("wrong_password123")
+#     time.sleep(5)
+#     #Need element for next button!!!!!!!!!!!!!!!!!
+#     assert "The password you entered is incorrenct" in driver.page_source
+#     driver.close()

@@ -1,2 +1,4 @@
 
 *.pyc
+android_test_results.txt
+web_test_results.txt
