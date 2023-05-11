@@ -47,3 +47,4 @@ class EventbriteUser(HttpUser):
         self.client.post("/create_event", data=data)
 
 # RUN THIS INTO THE TERMINAL: locust -f LocustMain2.py --host=https://event-us.me/
+# this line is a Git Test
