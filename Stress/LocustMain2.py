@@ -1,50 +1,96 @@
 from locust import HttpUser, task, between
-import random
+import random, string
+
+######################################################################################
+################################### GLOBAL VARIABLES #################################
+######################################################################################
+
+authtoken = "b103cc46d84963ddb4c6ba5609c2a1335fdf055ceff715680c5684adf621c63e"
+headers = {"Authorization": f"CustomToken {authtoken}"}
+id = "129"
+EventIDs = ["7333", "3862"] 
+
+######################################################################################
+################################### HELPER FUNCTIONS #################################
+######################################################################################
+
+def createEmail():
+    # Generate a random string of letters and digits for the username
+    username = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    # Add a domain name
+    email = username + '@gmail.com'
+    return email
+
+def createPassword():
+    char_set = string.ascii_letters + string.digits + string.punctuation
+    # Generate a random password of the specified length
+    password = ''.join(random.choice(char_set) for i in range(12))
+    return password
+
 
 class EventbriteUser(HttpUser):
     wait_time = between(1, 5)
-
+    
     ###################################################################################
     ################################## GET TASKS ######################################
     ###################################################################################
 
     @task
-    def index_page(self): #Khalsan
-        self.client.get("/")
-
-    @task(1)
     def browse_events(self): #Khalsan
-        self.client.get("/events/ALL/")
+        self.client.get("events/ALL/")
 
-    @task(2)
+    @task
     def browse_events(self): #Khalsan
-        self.client.get("/events/free-events/")
+        self.client.get("events/free-events/")
 
-    @task(3)
+    @task
     def search_event(self): #Khalsan
-        self.client.get("/events/search/", params={"q": "test"})
+        self.client.get("events/search/gg")
 
-    @task(4)
-    def view_event(self):
-        EventIDs = ["7333%7D", "9463%7D", "3862"] #ask backend for valid events
-        event_id = 1  # replace with a valid event ID
-        self.client.get(f"/events/ID/{random.choice(EventIDs)}")
+    @task
+    def view_event(self): #khalsan
+        self.client.get(f"events/ID/{random.choice(EventIDs)}/")
 
+    @task
+    def liked_events(self): #khalsan
+        self.client.get("events/liked/", headers=headers)
+
+    @task
+    def dashboard_get(self): #khalsan
+        self.client.get(f"dashboard/user/{id}/")
+
+    @task
+    def creator_events(self): #khalsan
+        self.client.get("eventmanagement/creatorevents/", headers=headers)
+
+    @task
+    def prices(self): #khalsan
+        self.client.get(f"events/TicketsPrice/{random.choice(EventIDs)}/", headers=headers)    
     ###################################################################################
     ################################# POST TASKS ######################################
     ###################################################################################
     
-    @task(5)
+    @task #needs auth, khalsan
     def create_event(self):
-        data = {
-            "title": "Test Event",
-            "description": "This is a test event.",
-            "location": "Test Location",
-            "date": "2023-03-17T10:00",
-            "ticket_price": "10.00",
-            "ticket_quantity": "100"
-        }
-        self.client.post("/create_event", data=data)
+        data = {'Title': 'LocustTestEvent',
+        'organizer': 'Yusuy',
+        'ST_DATE': '2023-05-10',
+        'END_DATE': '2023-05-10',
+        'ST_TIME': '04:00:00',
+        'END_TIME': '06:00:00',
+        'online': 'True',
+        'CAPACITY': '5000',
+        'STATUS': 'Draft'}
+        self.client.post("events/create/", data=data, headers=headers)
 
-# RUN THIS INTO THE TERMINAL: locust -f LocustMain2.py --host=https://event-us.me/
+
+    @task #needs no auth, khalsan
+    def login(self):
+        data = {
+        "email": "youssss@gmail.com",
+        "password": "Yusuy_2000"
+        }
+        self.client.post("user/login/", data=data)
+
+# RUN THIS INTO THE TERMINAL: locust -f LocustMain2.py --host=https://event-us.me:8000/
 # this line is a Git Test

@@ -9,11 +9,11 @@ import WebsiteDriverInit
 
 
 # Import test files
-from LoginTests import NormalLogin, TestLoginWrongEmail,TestLoginWrongPassword, TestBlankLogin,TestBlankPasswordLogin
-from SignupTests import NormalSignUp,testSignUpWrongNames,testSignUpWrongEmailDomian,testSignUpWithoutPassword,testSignUpEmptyEmail,testSignUpAssociatedEmail,testSignUpDiffrentEmails,testSignUpWithoutFirstName
-from EventCreationTests import TestTagLimit, NormalEventCreation, NoLocation, TestDoubleTags, NoTitle
-
-
+from LoginTests import NormalLogin, TestLoginWrongEmail,TestLoginWrongPassword, TestBlankLogin,TestBlankPasswordLogin,TestBlankEmailLogin
+from SignupTests import NormalSignUp,testSignUpWrongNames,testSignUpWrongEmailDomian,testSignUpWithoutPassword,testSignUpEmptyEmail,testSignUpAssociatedEmail,testSignUpDiffrentEmails,testSignUpWithoutFirstName,WeackPasswordSignUp
+from EventCreationTests import NormalEventCreation, NoLocation, NoTitle,PublishEvent
+from LogoutTest import Logout
+from GUITests import ManageEventsTest,ItIsMyAccount,Likes
 
 class MainTestingRoutine(unittest.TestCase):
 
@@ -32,7 +32,9 @@ class MainTestingRoutine(unittest.TestCase):
         TestBlankLogin()
 
     def test_Login5(self): # Test login with no password
-        TestBlankPasswordLogin()    
+        TestBlankPasswordLogin() 
+    def test_Login6(self):  
+          TestBlankEmailLogin()  
 
     ###################### SIGNUP TESTS ##############################
     
@@ -67,25 +69,32 @@ class MainTestingRoutine(unittest.TestCase):
     def test_SignUp8(self):
     # Test SignUp without a first name
      testSignUpWithoutFirstName()
+    def test_SignUp9(self):
+    # Test SignUp with weak password
+     testSignUpWithoutFirstName()
 
     ##################### EVENT CREATION TESTS ######################
 
-    # def test_EC1(self): # Test error message when trying to enter more than 10 tags
-    #     TestTagLimit()
+    def test_EC1(self): # Test error message when trying to save an event without a location
+        NoLocation()
 
-    # def test_EC2(self): # Test error message when trying to save an event without a location
-    #     NoLocation()
+    def test_EC2(self): # Test error message when trying to save an event without a title
+        NoTitle()
 
-    # def test_EC3(self): # Test error message when trying to save an event without a title
-    #     NoTitle()
-
-    # def test_EC4(self): # Test double Tagging
-    #     TestDoubleTags()
-
-    # def test_ECFinal(self): # Test Normal event creation with an online venue
-    #     NormalEventCreation()
-
+    def test_ECFinal(self): # Test Normal event creation with an online venue
+        NormalEventCreation()
         
+    def test_PubluishEvent(self):
+        PublishEvent()
+    ##################### LOG OUT TESTS ######################
+    def test_Logout(self): # Test Normal logout
+        Logout() 
+    def test_GUI(self):       
+      ItIsMyAccount()
+    def test_ManageEvents(self):  
+      ManageEventsTest()
+    def test_Likes(self):  
+      Likes()    
 if __name__ == "__main__":
     # unittest.main()
     with open('web_test_results.txt', 'w') as f:

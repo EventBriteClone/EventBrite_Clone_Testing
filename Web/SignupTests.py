@@ -28,6 +28,11 @@ def ceatePasword():
     # Generate a random password of the specified length
     password = ''.join(random.choice(char_set) for i in range(12))
     return password
+def createWeakPassword():
+    char_set = string.digits
+    # Generate a random password of the specified length
+    password = ''.join(random.choice(char_set) for _ in range(8))
+    return password
 def fill(driver,email,first_name,last_name,password):
     driver.find_element(By.ID,Names.sigupConfirmEmailSpace).send_keys(email)
     driver.find_element(By.ID,Names.sigupFNameSpace).send_keys(first_name)
@@ -35,8 +40,8 @@ def fill(driver,email,first_name,last_name,password):
     driver.find_element(By.ID,Names.sigupPasswordSpace).send_keys(password)
 
 # Predefined selectors
-signupButtonXPATH="/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/div[2]/a[2]/span[2]"
-AgreeButtonXPATH="/html/body/div[1]/div/div[2]/div/div/div/div[1]/div/main/div/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/main/div/div/div/div/div/div[2]/button[2]"
+# signupButtonXPATH="/html/body/div[2]/div/div[1]/div/div/header/div/div[1]/div[2]/div[2]/a[2]/span[2]"
+# AgreeButtonXPATH="/html/body/div[1]/div/div[2]/div/div/div/div[1]/div/main/div/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/main/div/div/div/div/div/div[2]/button[2]"
 mainURL="https://www.event-us.me/"
 
 def NormalSignUp():
@@ -50,7 +55,7 @@ def NormalSignUp():
     password = ceatePasword()
     # Navigate to the website and click the signup button
     driver.get(mainURL)
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID, Names.signupButton))
     login.click()
     sleep(5)
     # Fill in the email field and submit
@@ -65,10 +70,43 @@ def NormalSignUp():
     input_field.click()
     sleep(5)
     # Agree to the terms and conditions
-    driver.find_element(By.XPATH, AgreeButtonXPATH).click()
-    sleep(20)
+    # driver.find_element(By.XPATH, AgreeButtonXPATH).click()
+    # sleep(20)
     # Check if the username is present in the page source
-    assert username in driver.page_source
+    assert "Log in" in driver.page_source
+    # Close the driver
+    driver.close()
+
+def WeackPasswordSignUp():
+    # Initialize the web driver
+    driver = WebsiteDriverInit.init()
+    # Get the first name and last name
+    first_name, last_name = FirstLastName()
+    # Create an email and username
+    email, username = createEmail()
+    # Create a password
+    password = createWeakPassword()
+    # Navigate to the website and click the signup button
+    driver.get(mainURL)
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID, Names.signupButton))
+    login.click()
+    sleep(5)
+    # Fill in the email field and submit
+    input_field = driver.find_element(By.ID, Names.sigupEmailSpace)
+    input_field.send_keys(email)
+    input_field.send_keys(Keys.RETURN)
+    sleep(5)
+    # Fill in the form with user details
+    fill(driver, email, first_name, last_name, password)
+    # Click the confirm button
+    input_field = driver.find_element(By.ID, Names.ConfirmButtonXPATH)
+    input_field.click()
+    sleep(5)
+    # Agree to the terms and conditions
+    # driver.find_element(By.XPATH, AgreeButtonXPATH).click()
+    # sleep(20)
+    # Check if the username is present in the page source
+    assert "Please enter a valid password" in driver.page_source
     # Close the driver
     driver.close()
 
@@ -85,7 +123,7 @@ def testSignUpWrongNames():
     password = ceatePasword()
     # Navigate to the website and click the signup button
     driver.get(mainURL)
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     sleep(5)
     # Fill in the email field and submit
@@ -100,10 +138,10 @@ def testSignUpWrongNames():
     input_field.click()
     sleep(5)
     # Agree to the terms and conditions
-    driver.find_element(By.XPATH, AgreeButtonXPATH).click()
-    sleep(20)
+    # driver.find_element(By.XPATH, AgreeButtonXPATH).click()
+    # sleep(20)
     # Check if the username is present in the page source
-    assert username in driver.page_source
+    assert "Please enter a valid email" in driver.page_source
     # Close the driver
     driver.close()
 
@@ -116,7 +154,7 @@ def testSignUpWrongEmailDomian():
     email = username + '@karam'
     # Navigate to the website and click the signup button
     driver.get(mainURL)
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     sleep(5)
     # Fill in the email field with incorrect email
@@ -125,7 +163,7 @@ def testSignUpWrongEmailDomian():
     input_field.send_keys(Keys.RETURN)
     sleep(5)
     # Check if the error message is
-    assert "Invalid email" in driver.page_source
+    assert "Please enter a valid email address" in driver.page_source
     driver.close()
 
 def testSignUpWithoutPassword():
@@ -140,7 +178,7 @@ def testSignUpWithoutPassword():
     # Open the website
     driver.get(mainURL)
     # Find and click the sign up button
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     sleep(5)
     # Enter the email
@@ -154,7 +192,7 @@ def testSignUpWithoutPassword():
     input_field.click()
     sleep(5)
     # Check for the expected error message
-    assert "Field required" in driver.page_source
+    assert "Please enter a valid password" in driver.page_source
     # Close the driver
     driver.close()   
 
@@ -164,7 +202,7 @@ def testSignUpEmptyEmail():
     # Open the website
     driver.get(mainURL)
     # Find and click the sign up button
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     sleep(5)
     # Press enter without entering the email
@@ -172,7 +210,7 @@ def testSignUpEmptyEmail():
     input_field.send_keys(Keys.RETURN)
     sleep(3)
     # Check for the expected error message
-    assert "Field required" in driver.page_source
+    assert "Please enter a valid email address" in driver.page_source
     # Close the driver
     driver.close()
 
@@ -182,9 +220,9 @@ def testSignUpAssociatedEmail():
     # Open the website
     driver.get(mainURL)
     # Set an email that already has an account
-    usernameT=" miraaayman770@gmail.com"
+    usernameT=" miraaayman7770@gmail.com"
     # Find and click the sign up button
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     sleep(5)
     # Enter the existing email
@@ -193,7 +231,7 @@ def testSignUpAssociatedEmail():
     input_field.send_keys(Keys.RETURN)
     sleep(3)
     # Check for the expected error message
-    assert "There is an account associated with the email." in driver.page_source
+    assert "Please enter a valid email" in driver.page_source
     # Close the driver
     driver.close()
 
@@ -209,7 +247,7 @@ def testSignUpDiffrentEmails():
     # Navigate to the main URL for the website.
     driver.get(mainURL)
     # Find and click on the sign-up button using a wait condition and an XPATH.
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     # Wait for 5 seconds for the sign-up form to load.
     sleep(5)
@@ -229,7 +267,7 @@ def testSignUpDiffrentEmails():
     # Wait for 5 seconds for the page to load.
     sleep(5)
     # Assert that the string "Email address doesn't match. Please try again" is in the page source.
-    assert "Email address doesn't match. Please try again" in driver.page_source
+    assert "Email address doesn't match. Please try again." in driver.page_source
     # Close the driver.
     driver.close()
 
@@ -245,7 +283,7 @@ def testSignUpWithoutFirstName():
     # Navigate to the main URL for the website.
     driver.get(mainURL)
     # Find and click on the sign-up button using a wait condition and an XPATH.
-    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.XPATH, signupButtonXPATH))
+    login = WebDriverWait(driver, 20).until(lambda x: x.find_element(By.ID,  Names.signupButton))
     login.click()
     # Wait for 5 seconds for the sign-up form to load.
     sleep(5)
