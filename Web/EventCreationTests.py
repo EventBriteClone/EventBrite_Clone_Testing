@@ -115,3 +115,11 @@ def NoTitle():
     sleep(15)
     assert "This is required." in driver.page_source
     driver.close()
+
+def PageLoading():
+    LoginAndStartCreating()
+    sleep(5)
+    driver.refresh()
+    sleep(5)
+    assert "Basic Info" in driver.page_source
+    driver.close()

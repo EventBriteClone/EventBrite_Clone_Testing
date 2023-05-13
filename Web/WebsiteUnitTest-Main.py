@@ -11,7 +11,7 @@ import WebsiteDriverInit
 # Import test files
 from LoginTests import NormalLogin, TestLoginWrongEmail,TestLoginWrongPassword, TestBlankLogin,TestBlankPasswordLogin,TestBlankEmailLogin
 from SignupTests import NormalSignUp,testSignUpWrongNames,testSignUpWrongEmailDomian,testSignUpWithoutPassword,testSignUpEmptyEmail,testSignUpAssociatedEmail,testSignUpDiffrentEmails,testSignUpWithoutFirstName,WeackPasswordSignUp
-from EventCreationTests import NormalEventCreation, NoLocation, NoTitle,PublishEvent
+from EventCreationTests import NormalEventCreation, NoLocation, NoTitle,PublishEvent,PageLoading
 from LogoutTest import Logout
 from GUITests import ManageEventsTest,ItIsMyAccount,Likes
 
@@ -92,9 +92,11 @@ class MainTestingRoutine(unittest.TestCase):
     def test_GUI(self):       
       ItIsMyAccount()
     def test_ManageEvents(self):  
-      ManageEventsTest()
+        ManageEventsTest()
     def test_Likes(self):  
-      Likes()    
+        Likes()    
+    def test_relosd(self):
+        PageLoading()
 if __name__ == "__main__":
     # unittest.main()
     with open('web_test_results.txt', 'w') as f:
