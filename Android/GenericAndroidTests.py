@@ -8,6 +8,12 @@ from faker import Faker
 from appium.webdriver.common.touch_action import TouchAction
 import subprocess
 
+def opp(x_bool):
+    if x_bool == True:
+        return False
+    else:
+        return True
+
 def adbSendText(text):
     escaped_text = text.replace(" ", "\\ ")
     command = f"adb shell input text '{escaped_text}'"
@@ -109,9 +115,12 @@ def SignUpNoAt(): #attempt log in with an invalid email (no @ symbol)
     time.sleep(3)
     adbSendText(email)
     next = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Next")
-    next.click()
-    time.sleep(20)
-    assert not next.is_enabled()
+    time.sleep(5)
+    print(next.is_enabled())
+    if next.is_enabled() == False:
+        assert True
+    else:
+        assert False
     driver.close()
 
 def SignUpWeakPass(): #attempt log in with a never used before email (rnd) and passwords that don't meet the criteria
@@ -149,7 +158,7 @@ def SignUpWeakPass(): #attempt log in with a never used before email (rnd) and p
 
     for i in passesarray:
         SignUpPasswordField.send_keys(i)
-        condarray[counter] = not SignUpNextButton.is_enabled()
+        condarray[counter] = opp(SignUpNextButton.is_enabled())
         counter+=1
         for i in range(len(i)):
             SignUpPasswordField.send_keys(Keys.BACK_SPACE)
